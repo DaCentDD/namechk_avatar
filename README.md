@@ -8,6 +8,10 @@
 
 Написано на Python 3.9 + Django 3.1.
 
+Установить зависимости командой
+
+`pip install -r requirements.txt`
+
 Для запуска в папке namechk запустить команду:
 
 `python manage.py runserver`
