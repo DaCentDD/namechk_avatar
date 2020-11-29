@@ -1,0 +1,85 @@
+{% extends 'chk/layout.html' %}
+{% load static%}
+
+{% block title %}
+NAMECHK AVATAR
+{% endblock %}
+
+{% block content %}
+    <div class="services">
+        <form method='post' action='/result/'>
+            {% csrf_token %}
+            <input name="nick_input" type="text" placeholder="ENTER A NICKNAME"><br>
+            <button class="btn btn-success" type="SEARCH">SEARCH</button>
+        </form>
+        {% if nickname %}
+            <div class="nick">{{nickname}}</div>
+        {% else %}
+            <div class="nick">Who are you looking for?</div>
+        {% endif %}
+        <div class="container">
+            <div class="row">
+                <div class="col" style="position: relative; top: 15px">
+                    <img src="{% static 'chk/img/youtube.png' %}" alt="YouTube">
+                    <br>
+                    {% for result in youtube %}
+                        {% if result == 200 %}
+                            <br><span class="OK">OK</span><br><br>
+                        {% elif result == 404 %}
+                            <br><span class="NO">NO</span><br><br>
+                        {% elif 'http' in result %}
+                            <a href="https://www.youtube.com/user/{{nickname}}"><img src={{ result }} alt=""></a><br>
+                        {% elif 'User' in result %}
+                            <br><div class="same_user">{{result}}</div><br><br>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <div class="col">
+                    <img src="{% static 'chk/img/twitter.png' %}" alt="Twitter">
+                    <br>
+                    {% for result in twitter %}
+                        {% if result == 200 %}
+                            <span class="OK">OK</span><br><br>
+                        {% elif result == 404 %}
+                            <span class="NO">NO</span><br><br>
+                        {% elif 'http' in result %}
+                            <a href="https://www.twitter.com/{{nickname}}"><img src={{ result }} alt=""></a><br>
+                        {% elif 'User' in result %}
+                            <br><div class="same_user">{{result}}</div><br><br>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <div class="col">
+                    <img src="{% static 'chk/img/insta.png' %}" alt="Instagram">
+                    <br>
+                    {% for result in insta %}
+                        {% if result == 200 %}
+                            <span class="OK">OK</span><br><br>
+                        {% elif result == 404 %}
+                            <span class="NO">NO</span><br><br>
+                        {% elif 'http' in result %}
+                            <a href="https://www.instagram.com/{{nickname}}"><img src={{ result }} alt=""></a><br>
+                        {% elif 'User' in result %}
+                            <br><div class="same_user">{{result}}</div><br><br>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <div class="col">
+                    <img src="{% static 'chk/img/vk.png' %}" alt="Twitter">
+                    <br>
+                    {% for result in vk %}
+                        {% if result == 200 %}
+                            <span class="OK">OK</span><br><br>
+                        {% elif result == 404 %}
+                            <span class="NO">NO</span><br><br>
+                        {% elif 'http' in result %}
+                            <a href="https://www.vk.com/{{nickname}}"><img src={{ result }} alt=""></a><br>
+                        {% elif 'User' in result %}
+                            <br><div class="same_user">{{result}}</div><br><br>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

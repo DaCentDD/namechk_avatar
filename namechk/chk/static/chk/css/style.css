@@ -1,0 +1,107 @@
+body {
+    background: #363462;
+    color: white;
+    text-shadow: 1px 1px black;
+}
+
+aside {
+    float: left;
+    width: 15%;
+
+    height: 100vh;
+    color: black;
+    background: white;
+    border-right: 5px solid #1bd77e;
+}
+
+aside img {
+    width: 50%;
+    float: left;
+    margin: 5% 25%;
+
+}
+
+aside li {
+    list-style-type: none;
+    color:#363462;
+    float: left;
+    text-shadow: none;
+    font-size: 25px;
+    margin-top: 20%;
+    transition: transform 0.5s ease;
+}
+
+aside li:hover, aside li a:hover {
+    color:black;
+    text-decoration: none;
+    transform: scale(1.05);
+}
+
+.services {
+    float: left;
+    text-align: center;
+    width: 75%;
+    margin-top: 2%;
+    font-size: 20px;
+
+}
+
+.btn-success {
+    background: #1bd77e;
+    border-color: #1bd77e;
+    text-shadow: black;
+    margin-top: 2%;
+    color: #363462;
+    font-size: 20px;
+}
+
+input {
+    border-radius: 10px 10px 10px 10px;
+    text-align: center;
+    width: 30%;
+}
+
+.row {
+    height: 400px;
+    padding: 10%;
+}
+
+.container {
+    margin-top: 0%;
+}
+
+.col img {
+    width: 50%;
+    margin: 5%;
+    border-radius: 100px;
+}
+
+.OK {
+    color: #1bd77e;
+}
+
+.NO {
+    color: red;
+}
+
+.nick {
+    margin-top: 1%;
+    border-radius: 10px;
+    margin-left: 35%;
+    font-size: 20px;
+    background-color: white;
+    color: #363462;
+    width: 30%;
+}
+
+.same_user {
+    margin-top: 1%;
+    border-radius: 10px;
+    margin-left: 25%;
+    font-size: 20px;
+    background-color: white;
+    color: #363462;
+    width: 50%;
+    border: 5px solid #1bd77e;
+
+}
