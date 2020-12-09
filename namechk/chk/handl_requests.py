@@ -12,11 +12,21 @@ def check_vk(nickname, data, driver):
     try:
         time.sleep(0.2)
         results = driver.find_element_by_class_name('page_avatar_img')
+        print(results)
         avatar = results.get_attribute("src")
     except (NoSuchElementException, IndexError) as e:
-        avatar = None
-        status_code = 404
-        data['vk'] = [status_code, avatar]
+        try:
+            results = driver.find_element_by_class_name('post_img')
+            avatar = results.get_attribute("src")
+        except (NoSuchElementException, IndexError):
+            avatar = None
+            status_code = 404
+            data['vk'] = [status_code, avatar]
+        else:
+            status_code = 200
+            data['vk'] = [status_code, avatar]
+            with open(os.path.join('chk/static/chk/img/' + nickname, 'vk.png'), 'wb') as png:
+                png.write(requests.get(avatar).content)
     else:
         status_code = 200
         data['vk'] = [status_code, avatar]
@@ -49,7 +59,10 @@ def check_twitter(nickname, data, driver):
     try:
         time.sleep(0.5)
         results = driver.find_elements_by_class_name('css-9pa8cd')
-        avatar = results[1].get_attribute("src")
+        if len(results) < 2:
+            avatar = results[0].get_attribute("src")
+        else:
+            avatar = results[1].get_attribute("src")
     except (NoSuchElementException, IndexError):
         avatar = None
         status_code = 404
@@ -90,22 +103,29 @@ def check_avatars(data, nickname):
                 continue
             compare_result = compare_image_hash(f'chk/static/chk/img/{nickname}/{need_to_check[service_1]}.png',
                                                 f'chk/static/chk/img/{nickname}/{need_to_check[service_2]}.png')
-            if compare_result < 22:
+            if compare_result < 15:
                 if need_to_check[service_1] in potential_the_same.keys():
                     if need_to_check[service_2] not in potential_the_same[need_to_check[service_1]]:
-                        potential_the_same[service_1].append(need_to_check[service_2])
+                        potential_the_same[need_to_check[service_1]].append(need_to_check[service_2])
                 elif need_to_check[service_2] in potential_the_same.keys():
                     if need_to_check[service_1] not in potential_the_same[need_to_check[service_2]]:
-                        potential_the_same[service_2].append(need_to_check[service_1])
+                        potential_the_same[need_to_check[service_2]].append(need_to_check[service_1])
                 else:
                     potential_the_same[need_to_check[service_1]] = [need_to_check[service_2]]
     user_number = 1
+    printed = []
     for key, value in potential_the_same.items():
+        if key in printed and all(elem in printed for elem in value):
+            continue
+        printed.extend([key, *value])
+        print(key, value, user_number)
+
         data[key].append(f"User {user_number}")
         for val in value:
+            print(key, val, user_number)
+
             data[val].append(f"User {user_number}")
         user_number += 1
-    print(data)
     shutil.rmtree(f'chk/static/chk/img/{nickname}')
 
 
