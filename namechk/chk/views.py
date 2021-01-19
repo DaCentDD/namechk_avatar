@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
+from msedge.selenium_tools import Edge, EdgeOptions
+
 
 from .handl_requests import *
 
@@ -16,9 +16,10 @@ def result(request):
         if not nickname:
             return render(request, 'chk/index.html', data)
         data['nickname'] = nickname
-        options = Options()
+        options = EdgeOptions()
+        options.use_chromium = True
         options.add_argument('--headless')
-        driver = webdriver.Chrome(chrome_options=options)
+        driver = Edge(executable_path=r'D:\Git\namechk_avatar\namechk\msedgedriver.exe', options=options)
         check_list = [check_youtube, check_twitter, check_insta, check_vk]
         if not os.path.exists("chk/static/chk/img/" + nickname):
             os.mkdir("chk/static/chk/img/" + nickname)

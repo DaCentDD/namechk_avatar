@@ -8,11 +8,10 @@ from selenium.common.exceptions import NoSuchElementException
 
 
 def check_vk(nickname, data, driver):
+    time.sleep(0.2)
     driver.get(f'https://www.vk.com/{nickname}')
     try:
-        time.sleep(0.2)
         results = driver.find_element_by_class_name('page_avatar_img')
-        print(results)
         avatar = results.get_attribute("src")
     except (NoSuchElementException, IndexError) as e:
         try:
@@ -36,11 +35,11 @@ def check_vk(nickname, data, driver):
 
 def check_insta(nickname, data, driver):
     driver.get(f'https://www.instagram.com/{nickname}')
+    time.sleep(0.2)
     try:
-        time.sleep(0.2)
         results = driver.find_elements_by_tag_name('img')
-        if len(results) == 1:
-            raise NoSuchElementException
+        # if len(results) == 1:
+        #     raise NoSuchElementException
         avatar = results[0].get_attribute("src")
 
     except (NoSuchElementException, IndexError) as e:
@@ -56,8 +55,8 @@ def check_insta(nickname, data, driver):
 
 def check_twitter(nickname, data, driver):
     driver.get(f'https://www.twitter.com/{nickname}')
+    time.sleep(0.5)
     try:
-        time.sleep(0.5)
         results = driver.find_elements_by_class_name('css-9pa8cd')
         if len(results) < 2:
             avatar = results[0].get_attribute("src")
@@ -76,6 +75,7 @@ def check_twitter(nickname, data, driver):
 
 def check_youtube(nickname, data, driver):
     driver.get(f'https://www.youtube.com/user/{nickname}')
+    time.sleep(0.2)
     try:
         results = driver.find_element_by_xpath("//img[@id='img']")
     except NoSuchElementException:
@@ -118,12 +118,8 @@ def check_avatars(data, nickname):
         if key in printed and all(elem in printed for elem in value):
             continue
         printed.extend([key, *value])
-        print(key, value, user_number)
-
         data[key].append(f"User {user_number}")
         for val in value:
-            print(key, val, user_number)
-
             data[val].append(f"User {user_number}")
         user_number += 1
     shutil.rmtree(f'chk/static/chk/img/{nickname}')
